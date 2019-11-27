@@ -1,0 +1,22 @@
+html,
+body {
+    height: 100%;
+    background-image: url("https://mandatory-2-s3-bucket.s3.eu-central-1.amazonaws.com/background.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: auto;
+}
+
+.vertical-align {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.middle-align {
+    height: 100%;
+    background-size: cover;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}

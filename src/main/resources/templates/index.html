@@ -1,0 +1,85 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Custom CSS File -->
+    <link th:href="@{/css/style.css}" href="/static/css/style.css" rel="stylesheet" type="text/css"/>
+    <!-- FontAwesome Kit -->
+    <script src="https://kit.fontawesome.com/ffbf81b659.js" crossorigin="anonymous"></script>
+    <title>Bookmarker</title>
+</head>
+
+<body class="d-flex flex-column">
+<header class="bg-dark text-white text-center page-header p-3 sticky-top">
+    <h3 style="margin: 0">Bookmarker</h3>
+</header>
+<!-- START main section -->
+<section class="container flex-grow-1 flex-shrink-0 main-section" id="page-content" style="padding: 1em">
+    <div th:each="link, iter : ${allLinks}">
+        <div class="row rounded m-1" th:style="'padding: 0.5em; background-color: ' + (${iter.odd} ? 'lightgray' : 'white')">
+            <div class="col-10">
+            <a class="text-dark align-middle" th:with="urlToText = (${link.getUrl().length()} > 64 ?
+               ${link.getUrl().substring(0,64)} + '...' : ${link.getUrl()})" th:href="${link.getUrl()}"
+               th:text="${link.getLabel().isEmpty()} ? '[ ' + ${urlToText} + ' ]' :
+               ${link.getLabel()}"></a>
+            </div>
+            <div class="col-1">
+                <a th:href="'/edit/' + ${link.getId()}" class="btn btn-dark">Edit</a>
+            </div>
+            <div class="col-1">
+                <a class="btn btn-secondary" th:href="'/delete/' + ${link.getId()}">Delete</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div>
+        <form method="post" action="/save" th:object="${singleLink}">
+            <div class="row">
+                <div class="form-group col-7">
+                    <label hidden for="url">URL</label>
+                    <input class="form-control" placeholder="URL" type="text"
+                           id="url" th:field="*{url}" required>
+                </div>
+                <div class="form-group col-4">
+                    <label hidden for="label">Label</label>
+                    <input class="form-control" placeholder="Label" type="text"
+                           id="label" th:field="*{label}">
+                </div>
+                <div class="col-1">
+                    <input type="hidden" th:unless="${singleLink.getId()} == null" th:field="*{id}">
+                    <button class="btn btn-dark" type="submit">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<!-- END main section -->
+
+<!-- START footer section -->
+<footer class="py-4 bg-dark text-white flex-shrink-0">
+    <div class="container text-center">Copyright © 2019 Krisztian Szabo. All rights reserved.</div>
+</footer>
+<!-- END footer section -->
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
